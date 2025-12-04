@@ -6,10 +6,8 @@ import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
 import '../models/user.dart';
 import '../models/streak.dart';
-import '../models/streak.dart';
 import '../models/day_log.dart';
 import '../services/cushion_service.dart';
-import 'log_spend_modal.dart';
 import 'log_spend_modal.dart';
 import 'settings.dart';
 import 'calendar_screen.dart';
@@ -147,8 +145,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ],
                       ),
                     ),
-                  ],
-                ),
                 const SizedBox(height: 32),
 
                 // Streak Card
