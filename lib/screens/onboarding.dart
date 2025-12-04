@@ -98,6 +98,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                         
                         const Spacer(),
+                        Center(
+                          child: Text(
+                            'v1.1',
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 24),
                         
                         // Navigation
