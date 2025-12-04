@@ -20,10 +20,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _userService = UserService();
   int _step = 0;
 
+  String _currency = 'INR'; // Default
+
   @override
   void dispose() {
     _limitController.dispose();
-    _nameController.dispose(); // New
+    _nameController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -46,9 +48,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final password = _passwordController.text;
 
     await _userService.createUser(
-      name: _nameController.text, // New
+      name: _nameController.text,
       baseDailyLimit: limit,
       password: password,
+      currency: _currency,
     );
 
     if (mounted) {
@@ -120,6 +123,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget _buildLimitInput() {
     return Column(
       children: [
+        // Currency Selector
+        Row(
+          children: [
+            Expanded(
+              child: ChoiceChip(
+                label: const Text('Rupee (₹)'),
+                selected: _currency == 'INR',
+                onSelected: (selected) {
+                  if (selected) setState(() => _currency = 'INR');
+                },
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: ChoiceChip(
+                label: const Text('Euro (€)'),
+                selected: _currency == 'EUR',
+                onSelected: (selected) {
+                  if (selected) setState(() => _currency = 'EUR');
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
         TextFormField(
           controller: _nameController,
           textCapitalization: TextCapitalization.words,
@@ -144,8 +172,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             color: Theme.of(context).textTheme.bodyLarge?.color,
           ),
           decoration: InputDecoration(
-            prefixText: '₹ ',
-            hintText: 'Daily Limit (e.g. 150)',
+            prefixText: _currency == 'EUR' ? '€ ' : '₹ ',
+            hintText: _currency == 'EUR' ? 'Daily Limit (e.g. 5)' : 'Daily Limit (e.g. 150)',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide.none,

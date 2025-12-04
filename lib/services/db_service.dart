@@ -21,7 +21,7 @@ class DatabaseService {
     if (kIsWeb) {
       var factory = databaseFactoryFfiWeb;
       return await factory.openDatabase('rupeesave.db', options: OpenDatabaseOptions(
-        version: 2,
+        version: 3,
         onCreate: _createDB,
         onUpgrade: _onUpgrade,
       ));
@@ -32,7 +32,7 @@ class DatabaseService {
 
     return await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: _createDB,
       onUpgrade: _onUpgrade,
     );
@@ -51,6 +51,10 @@ class DatabaseService {
         )
       ''');
     }
+    if (oldVersion < 3) {
+      // Add currency column to user table
+      await db.execute('ALTER TABLE user ADD COLUMN currency TEXT DEFAULT "INR"');
+    }
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -62,6 +66,7 @@ class DatabaseService {
         base_daily_limit INTEGER NOT NULL,
         limit_password_hash TEXT,
         delay_minutes INTEGER DEFAULT 30,
+        currency TEXT DEFAULT "INR",
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         last_backup_at DATETIME
       )

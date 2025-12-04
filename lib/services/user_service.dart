@@ -25,6 +25,7 @@ class UserService {
     required int baseDailyLimit,
     required String password,
     String? name,
+    String currency = 'INR',
   }) async {
     final db = await _dbService.database;
     final passwordHash = _hashPassword(password);
@@ -34,6 +35,7 @@ class UserService {
       name: name,
       baseDailyLimit: baseDailyLimit,
       limitPasswordHash: passwordHash,
+      currency: currency,
       createdAt: DateTime.now(),
     );
 
