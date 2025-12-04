@@ -62,21 +62,26 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: HeatMapCalendar(
-                        datasets: _datasets,
-                        colorMode: ColorMode.color,
-                        defaultColor: isDark ? Colors.grey[800] : Colors.grey[200],
-                        textColor: isDark ? Colors.white : Colors.black,
-                        showColorTip: false,
-                        colorsets: const {
-                          1: Color(0xFF2ECC71), // Good (Green)
-                          2: Color(0xFFFF6B6B), // Bad (Red)
-                        },
-                        onClick: (value) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(value.toString())),
-                          );
-                        },
+                      child: Center( // Center the calendar
+                        child: HeatMapCalendar(
+                          datasets: _datasets,
+                          colorMode: ColorMode.color,
+                          defaultColor: isDark ? Colors.grey[800] : Colors.grey[200],
+                          textColor: isDark ? Colors.white : Colors.black,
+                          showColorTip: false,
+                          margin: const EdgeInsets.all(4), // Add margin between blocks
+                          size: 30, // Fixed block size
+                          fontSize: 12,
+                          colorsets: const {
+                            1: Color(0xFF2ECC71), // Good (Green)
+                            2: Color(0xFFFF6B6B), // Bad (Red)
+                          },
+                          onClick: (value) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(value.toString().split(' ')[0])),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

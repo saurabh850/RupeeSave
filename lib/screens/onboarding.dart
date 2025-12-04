@@ -221,7 +221,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         const SizedBox(height: 16),
         TextFormField(
           controller: _confirmPasswordController,
-          obscureText: true,
+          enableSuggestions: false,
+          autocorrect: false,
+          autofillHints: null, // Disable autofill
           decoration: InputDecoration(
             hintText: 'Confirm Password',
             filled: true,

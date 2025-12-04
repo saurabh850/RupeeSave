@@ -91661,7 +91661,7 @@ s=A.L(a).ok.y
 if(s==null)s=i
 else{q=A.L(a).ok.z
 s=s.bz(q==null?i:q.b)}q=t.p
-s=A.lT(A.c([new A.KQ(B.t,new A.yv("assets/images/profile.png"),24,i),B.S_,A.f9(A.c([r,A.bG("Keep building that streak!",i,i,i,s,i,i)],q),B.bB,B.a8,B.aD)],q),B.a5,B.a8,B.aD)
+s=A.lT(A.c([new A.KQ(B.t,new A.yv("assets/images/profile.jpg"),24,i),B.S_,A.f9(A.c([r,A.bG("Keep building that streak!",i,i,i,s,i,i)],q),B.bB,B.a8,B.aD)],q),B.a5,B.a8,B.aD)
 r=A.aBs(A.lT(A.c([j.tN(a,B.HR,new A.apl(a)),B.fs,j.tN(a,B.HP,new A.apm(a)),B.fs,j.tN(a,B.HX,new A.apn(a)),B.fs,j.tN(a,B.p_,new A.apo(a)),B.fs,j.tN(a,B.HS,new A.app(a))],q),B.a5,B.a8,B.aD),B.av)
 p=j.x
 p=p==null?i:p.c
