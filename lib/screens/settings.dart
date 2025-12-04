@@ -157,10 +157,6 @@ class SettingsScreen extends StatelessWidget {
                       onPressed: () => Navigator.pop(context),
                       child: const Text('Cancel'),
                     ),
-import '../services/db_service.dart';
-import 'onboarding.dart';
-
-// ... (inside the onTap callback for Reset)
                     TextButton(
                       onPressed: () async {
                         Navigator.pop(context);

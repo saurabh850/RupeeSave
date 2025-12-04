@@ -4,6 +4,9 @@ class User {
   final int baseDailyLimit;
   final String? limitPasswordHash;
   final String currency; // 'INR' or 'EUR'
+  final int delayMinutes;
+  final DateTime createdAt;
+  final DateTime? lastBackupAt;
 
   User({
     this.id = 1,

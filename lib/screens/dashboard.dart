@@ -160,6 +160,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 _buildTodayStatus(),
 
                 const SizedBox(height: 32),
+
+                // Log Button
+                if (_todayLog == null)
+                  OpenContainer(
+                    transitionType: ContainerTransitionType.fadeThrough,
+                    openBuilder: (context, _) => LogSpendModal(
+                      limit: _user!.baseDailyLimit,
+                      onLogged: _loadData,
+                    ),
+                    closedElevation: 0,
+                    closedShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    closedColor: Theme.of(context).primaryColor,
+                    closedBuilder: (context, openContainer) => SizedBox(
                       width: double.infinity,
                       height: 56,
                       child: Center(

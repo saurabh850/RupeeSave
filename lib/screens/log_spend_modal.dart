@@ -114,6 +114,81 @@ class _LogSpendModalState extends State<LogSpendModal> with SingleTickerProvider
                 Icon(
                   _isGoodDay ? Icons.check_circle_outline : Icons.warning_amber_rounded,
                   color: Colors.white,
+                  size: 100,
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  _isGoodDay ? 'Streak +1!' : 'Streak Reset',
+                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  _isGoodDay 
+                    ? 'Great job staying under ${widget.limit + (_useCushion ? 50 : 0)}'
+                    : 'Over limit by ${int.parse(_amountController.text) - (widget.limit + (_useCushion ? 50 : 0))}',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Colors.white.withOpacity(0.9),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Log Today\'s Spend'),
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            Text(
+              'Daily Limit: ${widget.limit}',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 32),
+            TextField(
+              controller: _amountController,
+              keyboardType: TextInputType.number,
+              autofocus: true,
+              style: Theme.of(context).textTheme.displayLarge,
+              decoration: const InputDecoration(
+                prefixText: ' ', // Currency symbol passed via widget if needed, or generic
+                hintText: '0',
+                border: InputBorder.none,
+              ),
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            TextField(
+              controller: _notesController,
+              decoration: const InputDecoration(
+                hintText: 'What is this for? (Optional)',
+                prefixIcon: Icon(Icons.edit_note),
+              ),
+            ),
+            const SizedBox(height: 16),
+            if (_availableCushions > 0) ...[
+              SwitchListTile(
+                title: const Text('Use Cushion'),
+                subtitle: Text('Available: $_availableCushions'),
+                value: _useCushion,
+                onChanged: (val) => setState(() => _useCushion = val),
+              ),
+              const SizedBox(height: 16),
+            ],
+            const Spacer(),
+            SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: _submit,
