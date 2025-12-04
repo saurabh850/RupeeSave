@@ -162,7 +162,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                 // Add bottom padding for scrolling
-                const SizedBox(height: 24),
+                const SizedBox(height: 48), // Increased padding
               ],
             ),
           ),

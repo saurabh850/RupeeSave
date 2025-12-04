@@ -89,7 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               : "Create a password to lock this limit. Changing it later will require this password.",
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 48), // Increased spacing
                         
                         // Form
                         Form(
@@ -208,6 +208,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             }
             return null;
           },
+          onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
         ),
         const SizedBox(height: 16),
         TextFormField(

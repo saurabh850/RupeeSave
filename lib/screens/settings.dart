@@ -32,6 +32,27 @@ class SettingsScreen extends StatelessWidget {
             },
           ),
           const Divider(),
+          _buildSectionHeader(context, 'Preferences'),
+          ListTile(
+            leading: const Icon(Icons.currency_exchange),
+            title: const Text('Currency'),
+            subtitle: const Text('Choose your currency symbol'),
+            trailing: DropdownButton<String>(
+              value: 'INR', // TODO: Fetch from user service
+              underline: const SizedBox(),
+              items: const [
+                DropdownMenuItem(value: 'INR', child: Text('Rupee (₹)')),
+                DropdownMenuItem(value: 'EUR', child: Text('Euro (€)')),
+              ],
+              onChanged: (value) {
+                // TODO: Update user service
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Currency update coming soon!')),
+                );
+              },
+            ),
+          ),
+          const Divider(),
           _buildSectionHeader(context, 'Security'),
           ListTile(
             leading: const Icon(Icons.lock_outline),
