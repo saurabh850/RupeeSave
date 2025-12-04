@@ -77,25 +77,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Header
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Text(
-                      'Hello, ${_user?.name ?? "Saver"}',
-                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                    CircleAvatar(
+                      radius: 24,
+                      backgroundImage: AssetImage('assets/images/profile.png'),
+                      backgroundColor: Colors.transparent,
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Keep building that streak!',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).textTheme.bodyMedium?.color,
-                      ),
+                    const SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Hello, ${_user?.name ?? "Saver"}',
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        Text(
+                          'Keep building that streak!',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 24),
-                    // Action Buttons (Scrollable Row for small screens)
+                  ],
+                ),
+                const SizedBox(height: 24),
+                // Action Buttons (Scrollable Row for small screens)
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(

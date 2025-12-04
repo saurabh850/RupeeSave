@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
 import '../services/backup_service.dart';
+import '../services/db_service.dart';
+import 'onboarding.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -133,6 +135,46 @@ class SettingsScreen extends StatelessWidget {
                         }
                       },
                       child: const Text('Restore'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.delete_forever, color: Colors.red),
+            title: const Text('Reset App Data', style: TextStyle(color: Colors.red)),
+            subtitle: const Text('Clear all data and restart onboarding'),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Reset App?'),
+                  content: const Text('This will delete ALL data. This action cannot be undone.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel'),
+                    ),
+import '../services/db_service.dart';
+import 'onboarding.dart';
+
+// ... (inside the onTap callback for Reset)
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        final dbService = DatabaseService();
+                        await dbService.resetDatabase();
+                        
+                        if (context.mounted) {
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+                            (route) => false,
+                          );
+                        }
+                      },
+                      child: const Text('Reset', style: TextStyle(color: Colors.red)),
                     ),
                   ],
                 ),

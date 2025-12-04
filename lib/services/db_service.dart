@@ -130,6 +130,18 @@ class DatabaseService {
     ''');
   }
 
+  Future<void> resetDatabase() async {
+    final db = await _instance.database;
+    await db.delete('user');
+    await db.delete('day_log');
+    await db.delete('streaks');
+    await db.delete('cushions');
+    await db.delete('wishlist');
+    await db.delete('audit');
+    await db.delete('achievements');
+    // Re-create default user logic will be handled by onboarding check
+  }
+
   Future<void> close() async {
     final db = await _instance.database;
     db.close();
