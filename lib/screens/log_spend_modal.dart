@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/streak_service.dart';
 import '../services/cushion_service.dart';
+import '../screens/dialogs/milestone_dialog.dart';
+import '../services/achievement_service.dart'; // For Achievement model if needed
 
 class LogSpendModal extends StatefulWidget {
   final int limit;
@@ -62,41 +64,62 @@ class _LogSpendModalState extends State<LogSpendModal> with SingleTickerProvider
   Future<void> _submit() async {
     if (_amountController.text.isEmpty) return;
 
-    final amount = int.parse(_amountController.text);
-    
-    // Logic: If planned, it's always a good day (or handled differently)
-    // For now, let's say Planned = Good Day automatically, or just doesn't break streak?
-    // User requirement: "planned buys do not break good_day"
-    
-    final effectiveLimit = widget.limit + (_useCushion ? 50 : 0);
-    final isGood = _isPlanned || amount <= effectiveLimit;
+    try {
+      final amount = int.parse(_amountController.text);
+      
+      final effectiveLimit = widget.limit + (_useCushion ? 50 : 0);
+      final isGood = _isPlanned || amount <= effectiveLimit;
 
-    if (_useCushion && !_isPlanned) { // Don't burn cushion if it's planned? Or user choice.
-      await _cushionService.useCushion();
-    }
+      if (_useCushion && !_isPlanned) {
+        await _cushionService.useCushion();
+      }
 
-    setState(() {
-      _isAnimating = true;
-      _isGoodDay = isGood;
-    });
+      setState(() {
+        _isAnimating = true;
+        _isGoodDay = isGood;
+      });
 
-    await _streakService.logSpend(
-      amount: amount,
-      limit: effectiveLimit,
-      justification: _notesController.text, // Save notes
-      // We might need to pass 'status' explicitly if we want to mark it as 'planned'
-      // For now, StreakService infers status. Let's update StreakService later to handle 'planned' explicitly if needed.
-      // But for MVP, if isGood is true, it counts as a streak.
-    );
+      // Log spend and check for achievement
+      final achievement = await _streakService.logSpend(
+        amount: amount,
+        limit: effectiveLimit,
+        justification: _notesController.text,
+      );
 
-    _controller.forward();
-    
-    // Wait for animation
-    await Future.delayed(const Duration(milliseconds: 1500));
-    
-    if (mounted) {
-      widget.onLogged();
-      Navigator.pop(context);
+      _controller.forward();
+      
+      // Wait for animation
+      await Future.delayed(const Duration(milliseconds: 1500));
+      
+      if (mounted) {
+        // Show achievement if unlocked
+        if (achievement != null) {
+          await showDialog(
+            context: context,
+            builder: (_) => MilestoneDialog(
+              title: achievement.title,
+              message: achievement.description,
+              iconName: achievement.iconName,
+            ),
+          );
+        }
+
+        widget.onLogged();
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      }
+    } catch (e) {
+      debugPrint('Error logging spend: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+        // If we are already animating (green screen), we should probably close
+        if (_isAnimating) {
+          Navigator.pop(context);
+        }
+      }
     }
   }
 

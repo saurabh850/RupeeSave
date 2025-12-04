@@ -75,7 +75,7 @@ class StreakService {
     return null;
   }
 
-  Future<void> logSpend({
+  Future<Achievement?> logSpend({
     required int amount,
     required int limit,
     String? justification,
@@ -103,24 +103,7 @@ class StreakService {
     await updateDailyStreak(isGoodDay);
     
     // Check Achievements
-    final achievement = await _achievementService.checkUnlock('log_spend');
-    if (achievement != null) {
-      _showMilestone(achievement);
-    }
-  }
-
-  void _showMilestone(achievement) {
-    final context = navigatorKey.currentContext;
-    if (context != null) {
-      showDialog(
-        context: context,
-        builder: (_) => MilestoneDialog(
-          title: achievement.title,
-          message: achievement.description,
-          iconName: achievement.iconName,
-        ),
-      );
-    }
+    return await _achievementService.checkUnlock('log_spend');
   }
   Future<Map<DateTime, int>> getAllLogs() async {
     final db = await _dbService.database;
